@@ -3,19 +3,19 @@
  * Version 1.1 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
  * http://www.mozilla.org/MPL/
- * 
+ *
  * Software distributed under the License is distributed on an "AS IS"
  * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
  * License for the specific language governing rights and limitations
  * under the License.
- * 
+ *
  * The Original Code is 'JSignPdf, a free application for PDF signing'.
- * 
+ *
  * The Initial Developer of the Original Code is Josef Cacek.
  * Portions created by Josef Cacek are Copyright (C) Josef Cacek. All Rights Reserved.
- * 
+ *
  * Contributor(s): Josef Cacek.
- * 
+ *
  * Alternatively, the contents of this file may be used under the terms
  * of the GNU Lesser General Public License, version 2.1 (the  "LGPL License"), in which case the
  * provisions of LGPL License are applicable instead of those
@@ -73,7 +73,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  * This class provides methods for KeyStore(s) handling.
- * 
+ *
  * @author Josef Cacek
  */
 public class KeyStoreUtils {
@@ -82,11 +82,18 @@ public class KeyStoreUtils {
 
 	static {
 		Security.addProvider(new BouncyCastleProvider());
+		try {
+			Security.addProvider(new com.cavium.provider.CaviumProvider());
+		} catch (Exception e) {
+			// gotta add details about why it failed to load
+			LOGGER.info("Unable to load Cavium Provider");
+		}
+
 	}
 
 	/**
 	 * Returns array of supported KeyStores
-	 * 
+	 *
 	 * @return String array with supported KeyStore implementation names
 	 */
 	public static SortedSet<String> getKeyStores() {
@@ -98,7 +105,7 @@ public class KeyStoreUtils {
 
 	/**
 	 * Loads key names (aliases) from the keystore
-	 * 
+	 *
 	 * @return array of key aliases
 	 */
 	public static String[] getKeyAliases(final BasicSignerOptions options) {
@@ -122,7 +129,7 @@ public class KeyStoreUtils {
 
 	/**
 	 * Returns list of key aliases in given keystore.
-	 * 
+	 *
 	 * @param aKs
 	 * @param options
 	 * @return
@@ -207,7 +214,7 @@ public class KeyStoreUtils {
 
 	/**
 	 * Returns alias defined (either as a string or as an key index) in options
-	 * 
+	 *
 	 * @param options
 	 * @return key alias
 	 */
@@ -243,7 +250,7 @@ public class KeyStoreUtils {
 
 	/**
 	 * Loads certificate names (aliases) from the given keystore
-	 * 
+	 *
 	 * @return array of certificate aliases
 	 */
 	public static String[] getCertAliases(KeyStore tmpKs) {
@@ -267,7 +274,7 @@ public class KeyStoreUtils {
 
 	/**
 	 * Loads certificate names (aliases) from the given keystore
-	 * 
+	 *
 	 * @param aKsType
 	 * @param aKsFile
 	 * @param aKsPasswd
@@ -279,7 +286,7 @@ public class KeyStoreUtils {
 
 	/**
 	 * Opens given keystore.
-	 * 
+	 *
 	 * @param aKsType
 	 * @param aKsFile
 	 * @param aKsPasswd
@@ -295,7 +302,7 @@ public class KeyStoreUtils {
 
 	/**
 	 * Creates empty JKS keystore..
-	 * 
+	 *
 	 * @return new JKS keystore
 	 * @throws KeyStoreException
 	 * @throws IOException
@@ -312,7 +319,7 @@ public class KeyStoreUtils {
 	/**
 	 * Copies certificates from one keystore to another (both keystore has to be
 	 * initialized.
-	 * 
+	 *
 	 * @param fromKeyStore
 	 * @param toKeyStore
 	 * @return
@@ -335,7 +342,7 @@ public class KeyStoreUtils {
 
 	/**
 	 * Opens given keystore.
-	 * 
+	 *
 	 * @param aKsType
 	 * @param aKsFile
 	 * @param aKsPasswd
@@ -372,7 +379,7 @@ public class KeyStoreUtils {
 	/**
 	 * Loads the default root certificates at
 	 * &lt;java.home&gt;/lib/security/cacerts.
-	 * 
+	 *
 	 * @param provider
 	 *            the provider or <code>null</code> for the default provider
 	 * @return a <CODE>KeyStore</CODE>
@@ -403,7 +410,7 @@ public class KeyStoreUtils {
 
 	/**
 	 * Returns PrivateKey and its certificate chain
-	 * 
+	 *
 	 * @param options
 	 * @return
 	 * @throws NoSuchAlgorithmException
@@ -426,7 +433,7 @@ public class KeyStoreUtils {
 	/**
 	 * Loads a {@link X509Certificate} from the given path. Returns null if the
 	 * certificate can't be loaded.
-	 * 
+	 *
 	 * @param filePath
 	 * @return
 	 */
@@ -452,7 +459,7 @@ public class KeyStoreUtils {
 	/**
 	 * Returns true if the given certificate can be used for encryption, false
 	 * otherwise.
-	 * 
+	 *
 	 * @param cert
 	 * @return
 	 */
@@ -479,7 +486,7 @@ public class KeyStoreUtils {
 
 	/**
 	 * For WINDOWS-MY keystore fixes problem with non-unique aliases
-	 * 
+	 *
 	 * @param keyStore
 	 */
 	@SuppressWarnings("unchecked")
