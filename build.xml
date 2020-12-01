@@ -61,6 +61,15 @@
 		<copy todir="${output.dir}" file="jsignpdf-itxt/build/release/dist/jsignpdf-itxt-${jsignpdf.version}-sources.jar"/>
 	</target>
 
+        <target name="cloudhsm-jars" depends="prepare">
+                <echo message="Copying cloudhsm jars"/>
+                <copy todir="${dist.dir}/lib">
+                        <fileset dir="/opt/cloudhsm/java">
+                                <include name="*.jar"/>
+                        </fileset>
+                </copy>
+        </target>
+
 	<!-- Prepare directory structure for the build -->
 	<target name="prepare" depends="clean">
 		<echo message="Preparing directory structure for the build" />
@@ -125,7 +134,7 @@
 	</target>
 
 	<!-- Compile sources -->
-	<target name="compile" depends="prepare,jsignpdf-itxt">
+	<target name="compile" depends="prepare,jsignpdf-itxt,cloudhsm-jars">
 		<echo message="Compiling sources" />
 		<javac srcdir="${src.filtered.dir}" nowarn="${compile.nowarn}"
 			destdir="${bin.dir}" debug="${compile.debug}"
